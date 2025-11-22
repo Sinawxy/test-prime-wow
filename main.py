@@ -1,10 +1,9 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CallbackQueryHandler, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
-# ======= توکن ربات =======
 TOKEN = "8507768646:AAFlTACsPQ_lKN7N1qpONDkbkHpPzxbExZk"
 
-# ======= تابع start =======
+# ======= start command =======
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("💠 سفارش بوست", callback_data='boost')],
@@ -15,16 +14,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(keyboard)
     if update.message:
         await update.message.reply_text(
-            "سلام! به ربات Prime WoW خوش آمدی 😎\nلطفا یکی از گزینه‌ها را انتخاب کن:", 
+            "سلام! به ربات Prime WoW خوش آمدی 😎\nلطفا یکی از گزینه‌ها را انتخاب کن:",
             reply_markup=reply_markup
         )
     else:
         await update.callback_query.edit_message_text(
-            "سلام! به ربات Prime WoW خوش آمدی 😎\nلطفا یکی از گزینه‌ها را انتخاب کن:", 
+            "سلام! به ربات Prime WoW خوش آمدی 😎\nلطفا یکی از گزینه‌ها را انتخاب کن:",
             reply_markup=reply_markup
         )
 
-# ======= هندلر Callback =======
+# ======= callback handler =======
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -41,9 +40,9 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "rules":
         await query.edit_message_text("📜 قوانین:\n1. اکانت خود را امن نگه دارید\n2. پسورد خود را به هیچکس ندهید\n3. پس از سفارش، ادمین با شما تماس خواهد گرفت")
 
-# ======= Main =======
+# ======= main =======
 if __name__ == "__main__":
-    app = Application.builder().token(TOKEN).build()  # سازگار با Python 3.13
+    app = Application.builder().token(TOKEN).build()  # بدون استفاده از Updater
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button))
     print("Bot is running...")
